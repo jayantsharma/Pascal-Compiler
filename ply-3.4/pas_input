@@ -1,0 +1,8 @@
+Program expressionTest (input, output);
+ var a, b : integer;
+        c : real;
+ BeGIn
+   a := 3;
+   b := a * 4;
+   c := (b + a)/ 2
+ End.

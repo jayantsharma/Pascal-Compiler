@@ -1,0 +1,603 @@
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    OBJECT
+    DELAY
+    FILE
+    TRUE
+    ABSOLUTE
+    IMPLEMENTATION
+    EXCEPT
+    GL
+    DVDV
+    REINTRODUCE
+    ON
+    TEXTBACKGROUND
+    MINUSEQUAL
+    INTERFACE
+    PROPERTY
+    TIMESEQUAL
+    DIVEQUAL
+    GOTOXY
+    USES
+    RESOURCESTRING
+    BEGIN
+    LIBRARY
+    IS
+    SHR
+    HALT
+    DOLLAR
+    TRY
+    INHERITED
+    OPERATOR
+    SHL
+    UNIT
+    LBRACE
+    AS
+    THREADVAR
+    CLRSCR
+    RSHIFT
+    RAISE
+    READ
+    CHAR
+    ATR
+    NEW
+    TEXTCOLOR
+    ASM
+    OUT
+    HASH
+    WRITELN
+    PLUSEQUAL
+    EXPORTS
+    FALSE
+    READLN
+    EXIT
+    INLINE
+    READKEY
+    LSHIFT
+    CONSTRUCTOR
+    DISPINTERFACE
+    RBRACE
+    SEMI
+    CLASS
+    XOR
+    STRING
+    INITIALIZATION
+    DISPOSE
+    FINALLY
+    FINALIZATION
+    WRITE
+    SELF
+    DESTRUCTOR
+
+Grammar
+
+Rule 0     S' -> otherwisepart
+Rule 1     file -> program
+Rule 2     file -> module
+Rule 3     program -> program_heading semicolon block DOT
+Rule 4     program_heading -> PROGRAM identifier
+Rule 5     program_heading -> PROGRAM identifier LPAREN identifier_list RPAREN
+Rule 6     identifier_list -> identifier_list comma identifier
+Rule 7     identifier_list -> identifier
+Rule 8     block -> label_declaration_part constant_definition_part type_definition_part variable_declaration_part procedure_and_function_declaration_part statement_part
+Rule 9     module -> constant_definition_part type_definition_part variable_declaration_part procedure_and_function_declaration_part
+Rule 10    label_declaration_part -> LABEL label_list semicolon
+Rule 11    label_declaration_part -> <empty>
+Rule 12    label_list -> label_list comma label
+Rule 13    label_list -> label
+Rule 14    label -> DIGSEQ
+Rule 15    constant_definition_part -> CONST constant_list
+Rule 16    constant_definition_part -> <empty>
+Rule 17    constant_list -> constant_list constant_definition
+Rule 18    constant_list -> constant_definition
+Rule 19    constant_definition -> identifier EQUAL cexpression semicolon
+Rule 20    cexpression -> csimple_expression
+Rule 21    cexpression -> csimple_expression relop csimple_expression
+Rule 22    csimple_expression -> cterm
+Rule 23    csimple_expression -> csimple_expression addop cterm
+Rule 24    cterm -> cfactor
+Rule 25    cterm -> cterm mulop cfactor
+Rule 26    cfactor -> sign cfactor
+Rule 27    cfactor -> cexponentiation
+Rule 28    cexponentiation -> cprimary
+Rule 29    cexponentiation -> cprimary STARSTAR cexponentiation
+Rule 30    cprimary -> identifier
+Rule 31    cprimary -> LPAREN cexpression RPAREN
+Rule 32    cprimary -> unsigned_constant
+Rule 33    cprimary -> NOT cprimary
+Rule 34    constant -> non_string
+Rule 35    constant -> sign non_string
+Rule 36    constant -> CHARACTER_STRING
+Rule 37    sign -> PLUS
+Rule 38    sign -> MINUS
+Rule 39    non_string -> DIGSEQ
+Rule 40    non_string -> identifier
+Rule 41    non_string -> REALNUMBER
+Rule 42    type_definition_part -> TYPE type_definition_list
+Rule 43    type_definition_part -> <empty>
+Rule 44    type_definition_list -> type_definition_list type_definition
+Rule 45    type_definition_list -> type_definition
+Rule 46    type_definition -> identifier EQUAL type_denoter semicolon
+Rule 47    type_denoter -> identifier
+Rule 48    type_denoter -> new_type
+Rule 49    new_type -> new_ordinal_type
+Rule 50    new_type -> new_structured_type
+Rule 51    new_type -> new_pointer_type
+Rule 52    new_ordinal_type -> enumerated_type
+Rule 53    new_ordinal_type -> subrange_type
+Rule 54    enumerated_type -> LPAREN identifier_list RPAREN
+Rule 55    subrange_type -> constant DOTDOT constant
+Rule 56    new_structured_type -> structured_type
+Rule 57    new_structured_type -> PACKED structured_type
+Rule 58    structured_type -> array_type
+Rule 59    structured_type -> record_type
+Rule 60    structured_type -> set_type
+Rule 61    structured_type -> file_type
+Rule 62    array_type -> ARRAY LBRAC index_list RBRAC OF component_type
+Rule 63    index_list -> index_list comma index_type
+Rule 64    index_list -> index_type
+Rule 65    index_type -> ordinal_type
+Rule 66    ordinal_type -> new_ordinal_type
+Rule 67    ordinal_type -> identifier
+Rule 68    component_type -> type_denoter
+Rule 69    record_type -> RECORD record_section_list END
+Rule 70    record_type -> RECORD record_section_list semicolon variant_part END
+Rule 71    record_type -> RECORD variant_part END
+Rule 72    record_section_list -> record_section_list semicolon record_section
+Rule 73    record_section_list -> record_section
+Rule 74    record_section -> identifier_list COLON type_denoter
+Rule 75    variant_part -> CASE variant_selector OF variant_list semicolon
+Rule 76    variant_part -> CASE variant_selector OF variant_list
+Rule 77    variant_part -> <empty>
+Rule 78    variant_selector -> tag_field COLON tag_type
+Rule 79    variant_selector -> tag_type
+Rule 80    variant_list -> variant_list semicolon variant
+Rule 81    variant_list -> variant
+Rule 82    variant -> case_constant_list COLON LPAREN record_section_list RPAREN
+Rule 83    variant -> case_constant_list COLON LPAREN record_section_list semicolon variant_part RPAREN
+Rule 84    variant -> case_constant_list COLON LPAREN variant_part RPAREN
+Rule 85    case_constant_list -> case_constant_list comma case_constant
+Rule 86    case_constant_list -> case_constant
+Rule 87    case_constant -> constant
+Rule 88    case_constant -> constant DOTDOT constant
+Rule 89    tag_field -> identifier
+Rule 90    tag_type -> identifier
+Rule 91    set_type -> SET OF base_type
+Rule 92    base_type -> ordinal_type
+Rule 93    file_type -> PFILE OF component_type
+Rule 94    new_pointer_type -> UPARROW domain_type
+Rule 95    domain_type -> identifier
+Rule 96    variable_declaration_part -> VAR variable_declaration_list semicolon
+Rule 97    variable_declaration_part -> <empty>
+Rule 98    variable_declaration_list -> variable_declaration_list semicolon variable_declaration
+Rule 99    variable_declaration_list -> variable_declaration
+Rule 100   variable_declaration -> identifier_list COLON type_denoter
+Rule 101   procedure_and_function_declaration_part -> proc_or_func_declaration_list semicolon
+Rule 102   procedure_and_function_declaration_part -> <empty>
+Rule 103   proc_or_func_declaration_list -> proc_or_func_declaration_list semicolon proc_or_func_declaration
+Rule 104   proc_or_func_declaration_list -> proc_or_func_declaration
+Rule 105   proc_or_func_declaration -> procedure_declaration
+Rule 106   proc_or_func_declaration -> function_declaration
+Rule 107   procedure_declaration -> procedure_heading semicolon directive
+Rule 108   procedure_declaration -> procedure_heading semicolon procedure_block
+Rule 109   procedure_heading -> procedure_identification
+Rule 110   procedure_heading -> procedure_identification formal_parameter_list
+Rule 111   directive -> FORWARD
+Rule 112   directive -> EXTERNAL
+Rule 113   formal_parameter_list -> LPAREN formal_parameter_section_list RPAREN
+Rule 114   formal_parameter_section_list -> formal_parameter_section_list semicolon formal_parameter_section
+Rule 115   formal_parameter_section_list -> formal_parameter_section
+Rule 116   formal_parameter_section -> value_parameter_specification
+Rule 117   formal_parameter_section -> variable_parameter_specification
+Rule 118   formal_parameter_section -> procedural_parameter_specification
+Rule 119   formal_parameter_section -> functional_parameter_specification
+Rule 120   value_parameter_specification -> identifier_list COLON identifier
+Rule 121   variable_parameter_specification -> VAR identifier_list COLON identifier
+Rule 122   procedural_parameter_specification -> procedure_heading
+Rule 123   functional_parameter_specification -> function_heading
+Rule 124   procedure_identification -> PROCEDURE identifier
+Rule 125   procedure_block -> block
+Rule 126   function_declaration -> function_heading semicolon directive
+Rule 127   function_declaration -> function_identification semicolon function_block
+Rule 128   function_declaration -> function_heading semicolon function_block
+Rule 129   function_heading -> FUNCTION identifier COLON result_type
+Rule 130   function_heading -> FUNCTION identifier formal_parameter_list COLON result_type
+Rule 131   result_type -> identifier
+Rule 132   function_identification -> FUNCTION identifier
+Rule 133   function_block -> block
+Rule 134   statement_part -> compound_statement
+Rule 135   compound_statement -> PBEGIN statement_sequence END
+Rule 136   statement_sequence -> statement_sequence semicolon statement
+Rule 137   statement_sequence -> statement
+Rule 138   statement -> open_statement
+Rule 139   statement -> closed_statement
+Rule 140   open_statement -> label COLON non_labeled_open_statement
+Rule 141   open_statement -> non_labeled_open_statement
+Rule 142   closed_statement -> label COLON non_labeled_closed_statement
+Rule 143   closed_statement -> non_labeled_closed_statement
+Rule 144   non_labeled_closed_statement -> assignment_statement
+Rule 145   non_labeled_closed_statement -> procedure_statement
+Rule 146   non_labeled_closed_statement -> goto_statement
+Rule 147   non_labeled_closed_statement -> compound_statement
+Rule 148   non_labeled_closed_statement -> case_statement
+Rule 149   non_labeled_closed_statement -> repeat_statement
+Rule 150   non_labeled_closed_statement -> closed_with_statement
+Rule 151   non_labeled_closed_statement -> closed_if_statement
+Rule 152   non_labeled_closed_statement -> closed_while_statement
+Rule 153   non_labeled_closed_statement -> closed_for_statement
+Rule 154   non_labeled_closed_statement -> <empty>
+Rule 155   non_labeled_open_statement -> open_with_statement
+Rule 156   non_labeled_open_statement -> open_if_statement
+Rule 157   non_labeled_open_statement -> open_while_statement
+Rule 158   non_labeled_open_statement -> open_for_statement
+Rule 159   repeat_statement -> REPEAT statement_sequence UNTIL boolean_expression
+Rule 160   open_while_statement -> WHILE boolean_expression DO open_statement
+Rule 161   closed_while_statement -> WHILE boolean_expression DO closed_statement
+Rule 162   open_for_statement -> FOR control_variable ASSIGNMENT initial_value direction final_value DO open_statement
+Rule 163   closed_for_statement -> FOR control_variable ASSIGNMENT initial_value direction final_value DO closed_statement
+Rule 164   open_with_statement -> WITH record_variable_list DO open_statement
+Rule 165   closed_with_statement -> WITH record_variable_list DO closed_statement
+Rule 166   open_if_statement -> IF boolean_expression THEN statement
+Rule 167   open_if_statement -> IF boolean_expression THEN closed_statement ELSE open_statement
+Rule 168   closed_if_statement -> IF boolean_expression THEN closed_statement ELSE closed_statement
+Rule 169   assignment_statement -> variable_access ASSIGNMENT expression
+Rule 170   variable_access -> identifier
+Rule 171   variable_access -> indexed_variable
+Rule 172   variable_access -> field_designator
+Rule 173   variable_access -> variable_access UPARROW
+Rule 174   indexed_variable -> variable_access LBRAC index_expression_list RBRAC
+Rule 175   index_expression_list -> index_expression_list comma index_expression
+Rule 176   index_expression_list -> index_expression
+Rule 177   index_expression -> expression
+Rule 178   field_designator -> variable_access DOT identifier
+Rule 179   procedure_statement -> identifier params
+Rule 180   procedure_statement -> identifier
+Rule 181   params -> LPAREN actual_parameter_list RPAREN
+Rule 182   actual_parameter_list -> actual_parameter_list comma actual_parameter
+Rule 183   actual_parameter_list -> actual_parameter
+Rule 184   actual_parameter -> expression
+Rule 185   actual_parameter -> expression COLON expression
+Rule 186   actual_parameter -> expression COLON expression COLON expression
+Rule 187   goto_statement -> GOTO label
+Rule 188   case_statement -> CASE case_index OF case_list_element_list END
+Rule 189   case_statement -> CASE case_index OF case_list_element_list SEMICOLON END
+Rule 190   case_statement -> CASE case_index OF case_list_element_list semicolon otherwisepart statement END
+Rule 191   case_statement -> CASE case_index OF case_list_element_list semicolon otherwisepart statement SEMICOLON END
+Rule 192   case_index -> expression
+Rule 193   case_list_element_list -> case_list_element_list semicolon case_list_element
+Rule 194   case_list_element_list -> case_list_element
+Rule 195   case_list_element -> case_constant_list COLON statement
+Rule 196   otherwisepart -> OTHERWISE
+Rule 197   otherwisepart -> OTHERWISE COLON
+Rule 198   control_variable -> identifier
+Rule 199   initial_value -> expression
+Rule 200   direction -> TO
+Rule 201   direction -> DOWNTO
+Rule 202   final_value -> expression
+Rule 203   record_variable_list -> record_variable_list comma variable_access
+Rule 204   record_variable_list -> variable_access
+Rule 205   boolean_expression -> expression
+Rule 206   expression -> simple_expression
+Rule 207   expression -> simple_expression relop simple_expression
+Rule 208   simple_expression -> term
+Rule 209   simple_expression -> simple_expression addop term
+Rule 210   term -> factor
+Rule 211   term -> term mulop factor
+Rule 212   factor -> sign factor
+Rule 213   factor -> exponentiation
+Rule 214   exponentiation -> primary
+Rule 215   exponentiation -> primary STARSTAR exponentiation
+Rule 216   primary -> variable_access
+Rule 217   primary -> unsigned_constant
+Rule 218   primary -> function_designator
+Rule 219   primary -> set_constructor
+Rule 220   primary -> LPAREN expression RPAREN
+Rule 221   primary -> NOT primary
+Rule 222   unsigned_constant -> unsigned_number
+Rule 223   unsigned_constant -> CHARACTER_STRING
+Rule 224   unsigned_constant -> NIL
+Rule 225   unsigned_number -> unsigned_integer
+Rule 226   unsigned_number -> unsigned_real
+Rule 227   unsigned_integer -> DIGSEQ
+Rule 228   unsigned_real -> REALNUMBER
+Rule 229   function_designator -> identifier params
+Rule 230   set_constructor -> LBRAC member_designator_list RBRAC
+Rule 231   set_constructor -> LBRAC RBRAC
+Rule 232   member_designator_list -> member_designator_list comma member_designator
+Rule 233   member_designator_list -> member_designator
+Rule 234   member_designator -> member_designator DOTDOT expression
+Rule 235   member_designator -> expression
+Rule 236   addop -> PLUS
+Rule 237   addop -> MINUS
+Rule 238   addop -> OR
+Rule 239   mulop -> STAR
+Rule 240   mulop -> SLASH
+Rule 241   mulop -> DIV
+Rule 242   mulop -> MOD
+Rule 243   mulop -> AND
+Rule 244   relop -> EQUAL
+Rule 245   relop -> NOTEQUAL
+Rule 246   relop -> LT
+Rule 247   relop -> GT
+Rule 248   relop -> LE
+Rule 249   relop -> GE
+Rule 250   relop -> IN
+Rule 251   identifier -> IDENTIFIER
+Rule 252   semicolon -> SEMICOLON
+Rule 253   comma -> COMMA
+
+Terminals, with rules where they appear
+
+ABSOLUTE             : 
+AND                  : 243
+ARRAY                : 62
+AS                   : 
+ASM                  : 
+ASSIGNMENT           : 162 163 169
+ATR                  : 
+BEGIN                : 
+CASE                 : 75 76 188 189 190 191
+CHAR                 : 
+CHARACTER_STRING     : 36 223
+CLASS                : 
+CLRSCR               : 
+COLON                : 74 78 82 83 84 100 120 121 129 130 140 142 185 186 186 195 197
+COMMA                : 253
+CONST                : 15
+CONSTRUCTOR          : 
+DELAY                : 
+DESTRUCTOR           : 
+DIGSEQ               : 14 39 227
+DISPINTERFACE        : 
+DISPOSE              : 
+DIV                  : 241
+DIVEQUAL             : 
+DO                   : 160 161 162 163 164 165
+DOLLAR               : 
+DOT                  : 3 178
+DOTDOT               : 55 88 234
+DOWNTO               : 201
+DVDV                 : 
+ELSE                 : 167 168
+END                  : 69 70 71 135 188 189 190 191
+EQUAL                : 19 46 244
+EXCEPT               : 
+EXIT                 : 
+EXPORTS              : 
+FALSE                : 
+FILE                 : 
+FINALIZATION         : 
+FINALLY              : 
+FOR                  : 162 163
+FUNCTION             : 129 130 132
+GE                   : 249
+GL                   : 
+GOTO                 : 187
+GOTOXY               : 
+GT                   : 247
+HALT                 : 
+HASH                 : 
+IDENTIFIER           : 251
+IF                   : 166 167 168
+IMPLEMENTATION       : 
+IN                   : 250
+INHERITED            : 
+INITIALIZATION       : 
+INLINE               : 
+INTERFACE            : 
+IS                   : 
+LABEL                : 10
+LBRAC                : 62 174 230 231
+LBRACE               : 
+LE                   : 248
+LIBRARY              : 
+LPAREN               : 5 31 54 82 83 84 113 181 220
+LSHIFT               : 
+LT                   : 246
+MINUS                : 38 237
+MINUSEQUAL           : 
+MOD                  : 242
+NEW                  : 
+NIL                  : 224
+NOT                  : 33 221
+NOTEQUAL             : 245
+OBJECT               : 
+OF                   : 62 75 76 91 93 188 189 190 191
+ON                   : 
+OPERATOR             : 
+OR                   : 238
+OUT                  : 
+PACKED               : 57
+PLUS                 : 37 236
+PLUSEQUAL            : 
+PROCEDURE            : 124
+PROGRAM              : 4 5
+PROPERTY             : 
+RAISE                : 
+RBRAC                : 62 174 230 231
+RBRACE               : 
+READ                 : 
+READKEY              : 
+READLN               : 
+REALNUMBER           : 41 228
+RECORD               : 69 70 71
+REINTRODUCE          : 
+REPEAT               : 159
+RESOURCESTRING       : 
+RPAREN               : 5 31 54 82 83 84 113 181 220
+RSHIFT               : 
+SELF                 : 
+SEMI                 : 
+SET                  : 91
+SHL                  : 
+SHR                  : 
+SLASH                : 240
+STAR                 : 239
+STARSTAR             : 29 215
+STRING               : 
+TEXTBACKGROUND       : 
+TEXTCOLOR            : 
+THEN                 : 166 167 168
+THREADVAR            : 
+TIMESEQUAL           : 
+TO                   : 200
+TRUE                 : 
+TRY                  : 
+TYPE                 : 42
+UNIT                 : 
+UNTIL                : 159
+UPARROW              : 94 173
+USES                 : 
+VAR                  : 96 121
+WHILE                : 160 161
+WITH                 : 164 165
+WRITE                : 
+WRITELN              : 
+XOR                  : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+EXTERNAL             : 112
+FORWARD              : 111
+OTHERWISE            : 196 197
+PBEGIN               : 135
+PFILE                : 93
+SEMICOLON            : 189 191 252
+actual_parameter     : 182 183
+actual_parameter_list : 181 182
+addop                : 23 209
+array_type           : 58
+assignment_statement : 144
+base_type            : 91
+block                : 3 125 133
+boolean_expression   : 159 160 161 166 167 168
+case_constant        : 85 86
+case_constant_list   : 82 83 84 85 195
+case_index           : 188 189 190 191
+case_list_element    : 193 194
+case_list_element_list : 188 189 190 191 193
+case_statement       : 148
+cexponentiation      : 27 29
+cexpression          : 19 31
+cfactor              : 24 25 26
+closed_for_statement : 153
+closed_if_statement  : 151
+closed_statement     : 139 161 163 165 167 168 168
+closed_while_statement : 152
+closed_with_statement : 150
+comma                : 6 12 63 85 175 182 203 232
+component_type       : 62 93
+compound_statement   : 134 147
+constant             : 55 55 87 88 88
+constant_definition  : 17 18
+constant_definition_part : 8 9
+constant_list        : 15 17
+control_variable     : 162 163
+cprimary             : 28 29 33
+csimple_expression   : 20 21 21 23
+cterm                : 22 23 25
+direction            : 162 163
+directive            : 107 126
+domain_type          : 94
+enumerated_type      : 52
+exponentiation       : 213 215
+expression           : 169 177 184 185 185 186 186 186 192 199 202 205 220 234 235
+factor               : 210 211 212
+field_designator     : 172
+file                 : 
+file_type            : 61
+final_value          : 162 163
+formal_parameter_list : 110 130
+formal_parameter_section : 114 115
+formal_parameter_section_list : 113 114
+function_block       : 127 128
+function_declaration : 106
+function_designator  : 218
+function_heading     : 123 126 128
+function_identification : 127
+functional_parameter_specification : 119
+goto_statement       : 146
+identifier           : 4 5 6 7 19 30 40 46 47 67 89 90 95 120 121 124 129 130 131 132 170 178 179 180 198 229
+identifier_list      : 5 6 54 74 100 120 121
+index_expression     : 175 176
+index_expression_list : 174 175
+index_list           : 62 63
+index_type           : 63 64
+indexed_variable     : 171
+initial_value        : 162 163
+label                : 12 13 140 142 187
+label_declaration_part : 8
+label_list           : 10 12
+member_designator    : 232 233 234
+member_designator_list : 230 232
+module               : 2
+mulop                : 25 211
+new_ordinal_type     : 49 66
+new_pointer_type     : 51
+new_structured_type  : 50
+new_type             : 48
+non_labeled_closed_statement : 142 143
+non_labeled_open_statement : 140 141
+non_string           : 34 35
+open_for_statement   : 158
+open_if_statement    : 156
+open_statement       : 138 160 162 164 167
+open_while_statement : 157
+open_with_statement  : 155
+ordinal_type         : 65 92
+otherwisepart        : 190 191 0
+params               : 179 229
+primary              : 214 215 221
+proc_or_func_declaration : 103 104
+proc_or_func_declaration_list : 101 103
+procedural_parameter_specification : 118
+procedure_and_function_declaration_part : 8 9
+procedure_block      : 108
+procedure_declaration : 105
+procedure_heading    : 107 108 122
+procedure_identification : 109 110
+procedure_statement  : 145
+program              : 1
+program_heading      : 3
+record_section       : 72 73
+record_section_list  : 69 70 72 82 83
+record_type          : 59
+record_variable_list : 164 165 203
+relop                : 21 207
+repeat_statement     : 149
+result_type          : 129 130
+semicolon            : 3 10 19 46 70 72 75 80 83 96 98 101 103 107 108 114 126 127 128 136 190 191 193
+set_constructor      : 219
+set_type             : 60
+sign                 : 26 35 212
+simple_expression    : 206 207 207 209
+statement            : 136 137 166 190 191 195
+statement_part       : 8
+statement_sequence   : 135 136 159
+structured_type      : 56 57
+subrange_type        : 53
+tag_field            : 78
+tag_type             : 78 79
+term                 : 208 209 211
+type_definition      : 44 45
+type_definition_list : 42 44
+type_definition_part : 8 9
+type_denoter         : 46 68 74 100
+unsigned_constant    : 32 217
+unsigned_integer     : 225
+unsigned_number      : 222
+unsigned_real        : 226
+value_parameter_specification : 116
+variable_access      : 169 173 174 178 203 204 216
+variable_declaration : 98 99
+variable_declaration_list : 96 98
+variable_declaration_part : 8 9
+variable_parameter_specification : 117
+variant              : 80 81
+variant_list         : 75 76 80
+variant_part         : 70 71 83 84
+variant_selector     : 75 76
+
